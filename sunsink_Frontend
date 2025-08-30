@@ -1,0 +1,651 @@
+import React, { useState } from "react";
+
+/**
+ * Solar Frontend — Single‑file React landing page
+ * TailwindCSS styles (no external UI deps). Drop into a Vite/Next app with Tailwind.
+ *
+ * Sections: Navbar • Hero • Trusted Brands • Product Categories • Why Choose Us
+ *           Kits & Bundles • Design & Mounting • How It Works • Case Studies
+ *           FAQ • Contact/Quote • Footer
+ */
+
+export default function SolarSite() {
+  const [open, setOpen] = useState(false);
+  const nav = [
+    { label: "Products", href: "#products" },
+    { label: "Kits", href: "#kits" },
+    { label: "Design", href: "#design" },
+    { label: "Process", href: "#process" },
+    { label: "Case Studies", href: "#cases" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Contact", href: "#contact" },
+  ];
+
+  const categories = [
+    {
+      title: "Solar Panels",
+      copy: "High‑efficiency mono & bifacial modules.",
+      points: ["400–600W options", "Tier‑1 vendors", "25–30yr performance"],
+      img: "/img/panels.jpg",
+      icon: <PanelIcon />,
+    },
+    {
+      title: "Inverters",
+      copy: "Hybrid, string & microinverters for any topology.",
+      points: ["High/low voltage", "Rapid shutdown", "App monitoring"],
+      img: "/img/inverters.jpg",
+      icon: <InverterIcon />,
+    },
+    {
+      title: "Batteries",
+      copy: "Lithium iron phosphate storage — safe & scalable.",
+      points: ["Rack‑mount & wall", "UPS/backup", "10yr warranty"],
+      img: "/img/batteries.jpg",
+      icon: <BatteryIcon />,
+    },
+    {
+      title: "Racking & Mounts",
+      copy: "Roof, ground, carport & tracking systems.",
+      points: ["Stamped letters", "Wind/snow rated", "Rapid install"],
+      img: "/img/racking.jpg",
+      icon: <RackingIcon />,
+    },
+    {
+      title: "Complete Kits",
+      copy: "Off‑grid, grid‑tie & hybrid kits — DIY or turnkey.",
+      points: ["Residential", "Commercial", "Mobile/RV/Marine"],
+      img: "/img/kits.jpg",
+      icon: <KitIcon />,
+    },
+    {
+      title: "EV Chargers",
+      copy: "Level‑2 smart charging integrated with solar.",
+      points: ["Wi‑Fi control", "Utility rebates", "Load balancing"],
+      img: "/img/ev.jpg",
+      icon: <EVIcon />,
+    },
+  ];
+
+  const kits = [
+    {
+      name: "Grid‑Tie Starter (5 kW)",
+      bullet: ["14x 370–400W panels", "1‑phase string inverter", "Roof racking"],
+      price: "From $6,990",
+    },
+    {
+      name: "Hybrid Home (10 kW + 10 kWh)",
+      bullet: ["24x 410–450W panels", "Hybrid inverter", "10 kWh LiFePO₄"],
+      price: "From $15,900",
+    },
+    {
+      name: "Off‑Grid Pro (8 kW + 20 kWh)",
+      bullet: ["20x 450–500W panels", "48V inverter/charger", "20 kWh LiFePO₄"],
+      price: "From $21,800",
+    },
+  ];
+
+  const faqs = [
+    {
+      q: "Grid‑tie vs hybrid vs off‑grid — what’s the difference?",
+      a: "Grid‑tie exports surplus to the utility with no batteries. Hybrid adds batteries for backup and time‑of‑use shifting. Off‑grid operates independently from the grid with appropriately sized storage and generator backup.",
+    },
+    {
+      q: "How long does installation take?",
+      a: "Typical residential timelines are 4–8 weeks end‑to‑end: site survey, engineering, permits, installation, inspection, and PTO (permission to operate). Commercial timelines vary with utility and AHJ complexity.",
+    },
+    {
+      q: "Do you provide stamped engineering letters?",
+      a: "Yes — for roof and ground systems we provide structural calcs, stamped letters, BOM, and layout drawings as part of our design package.",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      {/* Top bar */}
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <a href="#" className="flex items-center gap-2">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600">
+                <SunIcon />
+              </span>
+              <span className="font-bold text-lg tracking-tight">Solora</span>
+            </a>
+
+            <nav className="hidden md:flex items-center gap-6">
+              {nav.map((n) => (
+                <a key={n.href} href={n.href} className="text-sm font-medium text-slate-700 hover:text-emerald-700">
+                  {n.label}
+                </a>
+              ))}
+              <a
+                href="#contact"
+                className="inline-flex items-center rounded-xl bg-emerald-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700"
+              >
+                Get a Quote
+              </a>
+            </nav>
+
+            <button onClick={() => setOpen(!open)} className="md:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-slate-100">
+              <MenuIcon />
+            </button>
+          </div>
+        </div>
+        {/* Mobile menu */}
+        {open && (
+          <div className="md:hidden border-t border-slate-200 bg-white">
+            <div className="mx-auto max-w-7xl px-4 py-3 space-y-1">
+              {nav.map((n) => (
+                <a key={n.href} href={n.href} className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-50">
+                  {n.label}
+                </a>
+              ))}
+              <a href="#contact" className="block rounded-md px-3 py-2 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700">
+                Get a Quote
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden">
+          <GradGlow />
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 relative">
+            <div className="grid lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7">
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
+                  Clean power that pays for itself.
+                </h1>
+                <p className="mt-4 text-lg text-slate-700 max-w-2xl">
+                  Shop pro‑grade solar equipment or get a turnkey install. We’ll design, permit,
+                  and deliver a system that maximizes ROI and reliability — residential or commercial.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a href="#kits" className="inline-flex items-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-emerald-700">
+                    Shop Kits
+                  </a>
+                  <a href="#design" className="inline-flex items-center rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold hover:bg-white">
+                    Free Design & BOM
+                  </a>
+                </div>
+                <dl className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-6 max-w-xl">
+                  {[
+                    ["Up to", "45% lower bills"],
+                    ["Installs", "4–8 weeks"],
+                    ["Warranty", "25–30 yrs"],
+                  ].map(([k, v]) => (
+                    <div key={k} className="rounded-2xl border border-slate-200 bg-white p-4">
+                      <dt className="text-xs uppercase tracking-wide text-slate-500">{k}</dt>
+                      <dd className="mt-1 text-base font-semibold">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div className="lg:col-span-5">
+                <div className="relative rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 p-4 sm:p-6">
+                  <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-emerald-600/15 to-sky-500/15 flex items-center justify-center">
+                    <HeroArrayIllustration />
+                  </div>
+                  <p className="mt-3 text-sm text-slate-600">
+                    Full‑service or DIY: compare kits, components and financing in one place.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Trusted Brands */}
+        <section aria-label="Trusted brands" className="py-10 border-y border-slate-200 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <p className="text-xs font-semibold tracking-wider text-slate-500 uppercase">Trusted equipment & mounting</p>
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-6 items-center opacity-80">
+              {[
+                "Canadian Solar",
+                "Unirac",
+                "EG4",
+                "Victron",
+              ].map((brand) => (
+                <div key={brand} className="flex items-center justify-center rounded-xl border border-slate-200 px-4 py-3">
+                  <span className="text-sm font-semibold">{brand}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Product Categories */}
+        <section id="products" className="py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold">Products & Components</h2>
+                <p className="mt-2 text-slate-600 max-w-2xl">
+                  Build your system with bankable modules, smart inverters, safe LiFePO₄ batteries and engineered racking.
+                </p>
+              </div>
+              <a href="#kits" className="text-sm font-semibold text-emerald-700 hover:text-emerald-800">See kits →</a>
+            </div>
+
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {categories.map((c) => (
+                <article key={c.title} className="group rounded-3xl border border-slate-200 bg-white p-6 hover:shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
+                      {c.icon}
+                    </div>
+                    <h3 className="text-lg font-semibold">{c.title}</h3>
+                  </div>
+                  <p className="mt-3 text-sm text-slate-600">{c.copy}</p>
+                  <ul className="mt-3 space-y-1 text-sm text-slate-700">
+                    {c.points.map((p) => (
+                      <li key={p} className="flex items-start gap-2"><CheckIcon /><span>{p}</span></li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose Us */}
+        <section className="py-16 bg-gradient-to-b from-white to-slate-50">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold">Why choose Solora</h2>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <Feature
+                title="Price transparency"
+                body="No pushy sales — instant kit pricing and clear labor breakouts."
+              />
+              <Feature
+                title="Bankable equipment"
+                body="Tier‑1 modules, UL‑listed inverters and storage with long warranties."
+              />
+              <Feature
+                title="Permits & engineering"
+                body="AHJ‑ready plan sets with structural calcs and stamped letters."
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Kits */}
+        <section id="kits" className="py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold">Popular Kits & Bundles</h2>
+                <p className="mt-2 text-slate-600">DIY‑ready or installed by our certified partners. Financing available.</p>
+              </div>
+              <a href="#contact" className="text-sm font-semibold text-emerald-700 hover:text-emerald-800">Ask an expert →</a>
+            </div>
+
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {kits.map((k) => (
+                <article key={k.name} className="rounded-3xl border border-slate-200 bg-white p-6">
+                  <h3 className="text-lg font-semibold">{k.name}</h3>
+                  <ul className="mt-3 space-y-1 text-sm text-slate-700">
+                    {k.bullet.map((b) => (
+                      <li key={b} className="flex items-start gap-2"><CheckIcon /><span>{b}</span></li>
+                    ))}
+                  </ul>
+                  <div className="mt-4 flex items-center justify-between">
+                    <p className="text-base font-semibold">{k.price}</p>
+                    <a href="#contact" className="text-sm font-semibold text-emerald-700 hover:text-emerald-800">Configure →</a>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-slate-700">
+                  Not sure what to pick? Start with a quick load profile and we’ll recommend a kit sized for your home or business.
+                </p>
+                <a href="#design" className="inline-flex items-center rounded-xl bg-sky-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-sky-700">Start sizing</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Design & Mounting */}
+        <section id="design" className="py-20 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-10 items-start">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold">Design & Mounting Services</h2>
+                <p className="mt-3 text-slate-700">
+                  Send your address and a photo of your main electrical panel — we’ll return a stamped plan set, bill of materials, and layout optimized for energy production and aesthetics.
+                </p>
+                <ol className="mt-6 space-y-3 text-slate-700 text-sm list-decimal list-inside">
+                  <li>Site survey & shading (remote or on‑site)</li>
+                  <li>Structural/EE calcs + stamped letters</li>
+                  <li>Racking selection (roof, ground, carport, tracker)</li>
+                  <li>Permit package & utility interconnection</li>
+                </ol>
+                <div className="mt-6 flex gap-3">
+                  <a href="#contact" className="inline-flex items-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700">Request BOM</a>
+                  <a href="#faq" className="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold hover:bg-white">See requirements</a>
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-slate-200 p-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <MiniCard title="Roof Mounts" body="Composition, metal, tile + tilt options." />
+                  <MiniCard title="Ground Mounts" body="Single/dual‑post, ballast, trackers." />
+                  <MiniCard title="Carports" body="Shade + generation for lots." />
+                  <MiniCard title="Commercial" body="Flat‑roof + ballasted designs." />
+                </div>
+                <p className="mt-4 text-xs text-slate-500">Includes wind/snow load calcs and BOS selection.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Process */}
+        <section id="process" className="py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold">How it works</h2>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+              {[
+                ["Quote", "Send bill + roof photo"],
+                ["Survey", "Remote or on‑site"],
+                ["Design", "Plan set & permits"],
+                ["Install", "1–2 days typical"],
+                ["Inspect", "AHJ + utility"],
+                ["PTO", "Flip the switch"],
+              ].map(([t, b], i) => (
+                <div key={t} className="relative rounded-3xl border border-slate-200 bg-white p-5">
+                  <div className="absolute -top-3 -right-3 h-8 w-8 rounded-full bg-emerald-600 text-white text-sm font-bold grid place-items-center">{i + 1}</div>
+                  <h3 className="font-semibold">{t}</h3>
+                  <p className="mt-1 text-sm text-slate-600">{b}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Case Studies */}
+        <section id="cases" className="py-20 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold">Recent projects</h2>
+                <p className="mt-2 text-slate-600">A look at installs across residential, commercial and off‑grid sites.</p>
+              </div>
+              <a href="#contact" className="text-sm font-semibold text-emerald-700 hover:text-emerald-800">Share your project →</a>
+            </div>
+
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                ["38 kW Commercial Roof", "Karachi", "Flat‑roof, ballasted, 2 inverters"],
+                ["12 kW Residential", "Lahore", "Hybrid + 10 kWh storage"],
+                ["8 kW Off‑Grid", "Hunza", "Ground mount + 20 kWh LiFePO₄"],
+              ].map(([t, city, d]) => (
+                <article key={t} className="rounded-3xl border border-slate-200 bg-white">
+                  <div className="aspect-[16/10] rounded-t-3xl bg-gradient-to-br from-slate-100 to-slate-200"></div>
+                  <div className="p-5">
+                    <h3 className="font-semibold">{t}</h3>
+                    <p className="text-sm text-slate-600">{city} — {d}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="py-20">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold">Frequently asked questions</h2>
+            <div className="mt-6 divide-y divide-slate-200 overflow-hidden rounded-3xl border border-slate-200 bg-white">
+              {faqs.map((f) => (
+                <details key={f.q} className="group open:!bg-emerald-50/40 open:!border-emerald-200">
+                  <summary className="cursor-pointer list-none px-5 py-4 font-medium flex items-center justify-between">
+                    <span>{f.q}</span>
+                    <span className="ml-4 text-slate-400 group-open:rotate-180 transition-transform">⌄</span>
+                  </summary>
+                  <div className="px-5 pb-5 text-slate-700 text-sm">{f.a}</div>
+                  <div className="h-px bg-slate-200" />
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="py-20 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-10">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold">Get a free design & quote</h2>
+                <p className="mt-3 text-slate-700">
+                  Tell us about your site and goals. We’ll send a tailored layout, production estimate, and a transparent price breakdown.
+                </p>
+                <ul className="mt-5 space-y-2 text-sm text-slate-700">
+                  <li className="flex gap-2 items-start"><CheckIcon /><span>Upload a recent utility bill (optional)</span></li>
+                  <li className="flex gap-2 items-start"><CheckIcon /><span>Photo of main panel & roof (if available)</span></li>
+                  <li className="flex gap-2 items-start"><CheckIcon /><span>Preferred install month</span></li>
+                </ul>
+              </div>
+
+              <form className="rounded-3xl border border-slate-200 bg-white p-6 space-y-4" onSubmit={(e)=>e.preventDefault()}>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <Input label="Full name" name="name" placeholder="Your name" />
+                  <Input label="Email" name="email" type="email" placeholder="you@example.com" />
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <Input label="Phone" name="phone" placeholder="+92 …" />
+                  <Input label="City" name="city" placeholder="Karachi" />
+                </div>
+                <Input label="Address (for remote design)" name="address" placeholder="Street, City" />
+                <div>
+                  <label className="text-sm font-medium">Project type</label>
+                  <div className="mt-2 grid sm:grid-cols-3 gap-2">
+                    {['Residential', 'Commercial', 'Off‑Grid / Remote'].map(v => (
+                      <label key={v} className="flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm">
+                        <input type="radio" name="ptype" className="accent-emerald-600" /> {v}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium" htmlFor="notes">Notes</label>
+                  <textarea id="notes" className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" rows={4} placeholder="Tell us about your goals (backup, bill offset, EV, etc.)" />
+                </div>
+                <button className="w-full rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700">Request my quote</button>
+                <p className="text-xs text-slate-500">By submitting you agree to be contacted about your project. No spam, ever.</p>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600"><SunIcon /></span>
+              <span className="font-bold">Solora</span>
+            </div>
+            <p className="mt-3 text-sm text-slate-600">Solar made simple: premium components, engineered designs, and installs you can trust.</p>
+          </div>
+          <FooterCol title="Products" links={["Panels", "Inverters", "Batteries", "Racking", "Kits", "EV Chargers"]} />
+          <FooterCol title="Resources" links={["Design service", "Financing", "Rebates", "Installers", "Blog"]} />
+          <FooterCol title="Company" links={["About", "Careers", "Support", "Contact"]} />
+        </div>
+        <div className="border-t border-slate-200 py-6">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>© {new Date().getFullYear()} Solora Ltd. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <a href="#" className="hover:text-slate-700">Privacy</a>
+              <a href="#" className="hover:text-slate-700">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+/* ———— Small UI pieces ———— */
+function Input({ label, ...props }) {
+  return (
+    <div>
+      <label className="text-sm font-medium" htmlFor={props.name}>{label}</label>
+      <input {...props} id={props.name} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30" />
+    </div>
+  );
+}
+
+function Feature({ title, body }) {
+  return (
+    <div className="rounded-3xl border border-slate-200 bg-white p-6">
+      <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 mb-3"><ShieldIcon /></div>
+      <h3 className="font-semibold">{title}</h3>
+      <p className="mt-1 text-sm text-slate-700">{body}</p>
+    </div>
+  );
+}
+
+function MiniCard({ title, body }) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+      <h3 className="text-sm font-semibold">{title}</h3>
+      <p className="mt-1 text-xs text-slate-600">{body}</p>
+    </div>
+  );
+}
+
+function FooterCol({ title, links }) {
+  return (
+    <div>
+      <h4 className="text-sm font-semibold">{title}</h4>
+      <ul className="mt-3 space-y-2 text-sm text-slate-600">
+        {links.map((l) => (
+          <li key={l}><a href="#" className="hover:text-slate-800">{l}</a></li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* ———— Icons (inline SVG, no deps) ———— */
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6 text-slate-700" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-4 w-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  );
+}
+
+function PanelIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="14" rx="2" />
+      <path d="M3 9h18M8 4v14M16 4v14" />
+    </svg>
+  );
+}
+
+function InverterIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="5" y="3" width="14" height="18" rx="2" />
+      <path d="M9 7h6M9 12h6M9 17h6" />
+    </svg>
+  );
+}
+
+function BatteryIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="7" width="18" height="10" rx="2" />
+      <path d="M22 10v4" />
+    </svg>
+  );
+}
+
+function RackingIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 20h18M6 20V7m12 13V7M6 7l6-4 6 4" />
+    </svg>
+  );
+}
+
+function KitIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+  );
+}
+
+function EVIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 17a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm8 0a3 3 0 1 1 6 0 3 3 0 0 1-6 0Z" />
+      <path d="M7 17h6m4 0h1M11 17H7m-2 0H3v-4a4 4 0 0 1 4-4h6l3 3h2a2 2 0 0 1 2 2v3" />
+    </svg>
+  );
+}
+
+function HeroArrayIllustration() {
+  return (
+    <svg viewBox="0 0 600 400" className="w-full h-auto" aria-hidden="true">
+      <defs>
+        <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stopColor="#10b981" stopOpacity="0.3" /><stop offset="1" stopColor="#0ea5e9" stopOpacity="0.3" /></linearGradient>
+      </defs>
+      <rect x="0" y="0" width="600" height="400" fill="url(#g1)" opacity="0.2" />
+      {Array.from({ length: 6 }).map((_, r) => (
+        <g key={r} transform={`translate(40, ${40 + r * 55})`}>
+          {Array.from({ length: 8 }).map((_, c) => (
+            <rect key={c} x={c * 60} y={0} width={52} height={40} rx={6} fill="#fff" stroke="#cbd5e1" />
+          ))}
+        </g>
+      ))}
+      <circle cx="520" cy="320" r="40" fill="#10b981" opacity="0.2" />
+      <circle cx="540" cy="90" r="24" fill="#0ea5e9" opacity="0.2" />
+    </svg>
+  );
+}
+
+function GradGlow() {
+  return (
+    <div className="absolute inset-0 -z-10 overflow-hidden">
+      <div className="pointer-events-none absolute left-1/2 top-[-10%] -translate-x-1/2 h-[480px] w-[480px] rounded-full bg-emerald-400/20 blur-3xl" />
+      <div className="pointer-events-none absolute left-[10%] top-[20%] h-[320px] w-[320px] rounded-full bg-sky-400/20 blur-3xl" />
+    </div>
+  );
+}
