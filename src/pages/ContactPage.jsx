@@ -27,20 +27,20 @@ export default function ContactPage() {
   const contactInfo = [
     {
       title: "Sales & Quotes",
-      phone: "1-800-SUNSYNC",
-      email: "sales@sunsync.com",
+      phone: "409-797-6294",
+      email: "sales@sunsynchardware.com",
       hours: "Mon-Fri: 8AM-6PM EST"
     },
     {
       title: "Technical Support",
-      phone: "1-800-SUNSYNC-2",
-      email: "support@sunsync.com",
+      phone: "409-797-6294",
+      email: "sales@sunsynchardware.com",
       hours: "24/7 Support Available"
     },
     {
       title: "Customer Service",
-      phone: "1-800-SUNSYNC-3",
-      email: "info@sunsync.com",
+      phone: "409-797-6294",
+      email: "sales@sunsynchardware.com",
       hours: "Mon-Fri: 9AM-5PM EST"
     }
   ];
@@ -50,21 +50,21 @@ export default function ContactPage() {
       city: "Headquarters",
       address: "123 Solar Street, Suite 100",
       cityState: "Phoenix, AZ 85001",
-      phone: "(602) 555-0123",
+      phone: "409-797-6294",
       hours: "Mon-Fri: 8AM-6PM MST"
     },
     {
       city: "East Coast",
       address: "456 Renewable Road",
       cityState: "Boston, MA 02101",
-      phone: "(617) 555-0456",
+      phone: "409-797-6294",
       hours: "Mon-Fri: 8AM-6PM EST"
     },
     {
       city: "West Coast",
       address: "789 Green Avenue",
       cityState: "San Francisco, CA 94101",
-      phone: "(415) 555-0789",
+      phone: "409-797-6294",
       hours: "Mon-Fri: 8AM-6PM PST"
     }
   ];
@@ -321,10 +321,10 @@ export default function ContactPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="tel:1-800-SUNSYNC" 
+                href="tel:409-797-6294" 
                 className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-orange-700 hover:bg-orange-50 transition-colors"
               >
-                📞 Call Now: 1-800-SUNSYNC
+                📞 Call Now: 409-797-6294
               </a>
               <a 
                 href="mailto:sales@sunsync.com" 

@@ -17,37 +17,6 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen bg-orange-100 text-slate-900">
-      {/* Top Banner - Canadian Solar Style */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-2">
-            <div className="flex items-center space-x-6 text-xs">
-              <span className="text-slate-300">Global</span>
-              <div className="flex items-center space-x-4">
-                <a href="#" className="text-slate-300 hover:text-white transition-colors">North America</a>
-                <a href="#" className="text-slate-300 hover:text-white transition-colors">Europe</a>
-                <a href="#" className="text-slate-300 hover:text-white transition-colors">Asia Pacific</a>
-                <a href="#" className="text-slate-300 hover:text-white transition-colors">Latin America</a>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <span className="text-slate-300 text-xs">Language:</span>
-                <select className="bg-transparent text-white text-xs border-none focus:outline-none">
-                  <option>English</option>
-                  <option>Español</option>
-                  <option>中文</option>
-                </select>
-              </div>
-              <div className="flex items-center space-x-3">
-                <a href="#" className="text-slate-300 hover:text-white transition-colors text-xs">Downloads</a>
-                <a href="#" className="text-slate-300 hover:text-white transition-colors text-xs">Contact</a>
-                <a href="#" className="text-slate-300 hover:text-white transition-colors text-xs">E-Shop</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Promotional Banner */}
       {bannerVisible && (
@@ -65,7 +34,7 @@ export default function Layout({ children }) {
                 </span>
                 <span className="flex items-center space-x-2">
                   <span className="text-orange-200">📞</span>
-                  <span>Call: 1-800-SUNSYNC</span>
+                  <span>Call: 409-797-6294</span>
                 </span>
               </div>
               <button 
@@ -85,11 +54,20 @@ export default function Layout({ children }) {
       <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-orange-300">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <Link to="/" className="flex items-center gap-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-orange-700">
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/images/sunsync-logo.jpg" 
+                alt="SUNSYNC Hardware Logo" 
+                className="h-16 w-32"
+                onError={(e) => {
+                  // Fallback to sun icon if logo image fails to load
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'inline-flex';
+                }}
+              />
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-orange-700" style={{display: 'none'}}>
                 <SunIcon />
               </span>
-              <span className="font-bold text-lg tracking-tight">SUNSYNC Hardware</span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-6">
@@ -107,10 +85,10 @@ export default function Layout({ children }) {
                 </Link>
               ))}
               <Link
-                to="/quote"
+                to="/contact"
                 className="inline-flex items-center rounded-xl bg-orange-700 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-800"
               >
-                Get a Quote
+                Call for Price
               </Link>
             </nav>
 
@@ -139,11 +117,11 @@ export default function Layout({ children }) {
                 </Link>
               ))}
               <Link 
-                to="/quote" 
+                to="/contact" 
                 className="block rounded-md px-3 py-2 text-sm font-semibold text-white bg-orange-600 hover:bg-orange-700"
                 onClick={() => setOpen(false)}
               >
-                Get a Quote
+                Call for Price
               </Link>
             </div>
           </div>
@@ -159,9 +137,18 @@ export default function Layout({ children }) {
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-orange-700"><SunIcon /></span>
-              <span className="font-bold">SUNSYNC Hardware</span>
+            <div className="flex items-center">
+              <img 
+                src="/images/sunsync-logo.jpg" 
+                alt="SUNSYNC Hardware Logo" 
+                className="h-16 w-32"
+                onError={(e) => {
+                  // Fallback to sun icon if logo image fails to load
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'inline-flex';
+                }}
+              />
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-orange-700" style={{display: 'none'}}><SunIcon /></span>
             </div>
             <p className="mt-3 text-sm text-slate-600">Solar made simple: premium components, engineered designs, and installs you can trust.</p>
           </div>

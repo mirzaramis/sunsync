@@ -30,7 +30,7 @@ export default function ServicesPage() {
         "Quality inspection"
       ],
       icon: "🔧",
-      price: "From $2.50/W",
+      price: "From $3.00/W",
       duration: "4-8 weeks"
     },
     {
@@ -42,10 +42,11 @@ export default function ServicesPage() {
         "Preventive maintenance",
         "Troubleshooting support",
         "Warranty management",
-        "Annual inspections"
+        "Annual inspections",
+        "Panel washing"
       ],
       icon: "📊",
-      price: "From $200/year",
+      price: "$20 per panel",
       duration: "Ongoing"
     },
     {

@@ -1,7 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentImageSlide, setCurrentImageSlide] = useState(0);
+
+  const trustedBrands = [
+    { name: "Canadian Solar", logo: "/images/brands/canadian-solar.jpg" },
+    { name: "Unirac", logo: "/images/brands/unirac.jpg" },
+    { name: "Longi", logo: "/images/brands/longi.jpg" },
+    { name: "Victron", logo: "/images/brands/victron.jpg" },
+    { name: "Enphase", logo: "/images/brands/enphase.jpg" },
+    { name: "SolarEdge", logo: "/images/brands/solaredge.png" },
+    { name: "IronRidge", logo: "/images/brands/ironridge.png" },
+    { name: "QCELLS", logo: "/images/brands/qcells.jpg" },
+    { name: "REC", logo: "/images/brands/rec.jpg" },
+    { name: "Hyundai", logo: "/images/brands/hyundai.png" },
+    { name: "Jinko", logo: "/images/brands/jinko.jpg" },
+    { name: "Fronius", logo: "/images/brands/fronius.png" },
+    { name: "Schneider", logo: "/images/brands/schneider.jpg" },
+    { name: "Midnite", logo: "/images/brands/midnite.webp" },
+    { name: "Tesla", logo: "/images/brands/tesla.jpg" },
+    { name: "SnapNrack", logo: "/images/brands/snaprack.png" }
+  ];
+
+  const solarImages = [
+    {
+      src: "/images/solar-array/solar-1.png",
+      alt: "Solar panel array installation"
+    },
+    {
+      src: "/images/solar-array/solar-2.png",
+      alt: "Residential solar panel system"
+    },
+    {
+      src: "/images/solar-array/solar-3.png",
+      alt: "Commercial solar installation"
+    }
+  ];
+
+  useEffect(() => {
+    const brandInterval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % Math.ceil(trustedBrands.length / 4));
+    }, 3000);
+    
+    const imageInterval = setInterval(() => {
+      setCurrentImageSlide((prev) => (prev + 1) % solarImages.length);
+    }, 4000);
+    
+    return () => {
+      clearInterval(brandInterval);
+      clearInterval(imageInterval);
+    };
+  }, []);
+
   const categories = [
     {
       title: "Solar Panels",
@@ -140,31 +192,54 @@ export default function HomePage() {
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl bg-white/95 backdrop-blur shadow-lg ring-1 ring-orange-300 p-4 sm:p-6">
                 <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-orange-600/20 to-orange-400/20 flex items-center justify-center relative overflow-hidden">
-                  {/* Solar Panel Array Illustration */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="grid grid-cols-3 gap-2 transform rotate-12 scale-75">
-                      {[...Array(9)].map((_, i) => (
-                        <div key={i} className="w-16 h-12 bg-gradient-to-br from-orange-600/40 to-orange-500/30 rounded-sm border border-orange-400/50 shadow-sm relative">
-                          <div className="absolute inset-1 bg-gradient-to-br from-orange-500/60 to-orange-400/40 rounded-sm"></div>
-                          <div className="absolute top-1 left-1 right-1 h-0.5 bg-orange-300/70"></div>
-                          <div className="absolute top-3 left-1 right-1 h-0.5 bg-orange-300/70"></div>
-                          <div className="absolute top-5 left-1 right-1 h-0.5 bg-orange-300/70"></div>
-                          <div className="absolute top-7 left-1 right-1 h-0.5 bg-orange-300/70"></div>
-                          <div className="absolute top-9 left-1 right-1 h-0.5 bg-orange-300/70"></div>
+                  {/* Solar Panel Array Sliding Banner */}
+                  <div className="flex transition-transform duration-500 ease-in-out w-full h-full" 
+                       style={{ transform: `translateX(-${currentImageSlide * 100}%)` }}>
+                    {solarImages.map((image, index) => (
+                      <div key={index} className="w-full h-full flex-shrink-0 relative">
+                        <img 
+                          src={image.src}
+                          alt={image.alt}
+                          className={`w-full object-contain rounded-2xl ${
+                            index === 0 || index === 1 ? 'h-full scale-[1.11]' : 
+                            index === 2 ? 'h-full scale-x-[1.25]' : 'h-full'
+                          }`}
+                          style={{ objectPosition: 'center' }}
+                          onError={(e) => {
+                            // Fallback to CSS grid if image fails to load
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center" style={{display: 'none'}}>
+                          <div className="grid grid-cols-3 gap-2 transform rotate-12 scale-75">
+                            {[...Array(9)].map((_, i) => (
+                              <div key={i} className="w-16 h-12 bg-gradient-to-br from-orange-600/40 to-orange-500/30 rounded-sm border border-orange-400/50 shadow-sm relative">
+                                <div className="absolute inset-1 bg-gradient-to-br from-orange-500/60 to-orange-400/40 rounded-sm"></div>
+                                <div className="absolute top-1 left-1 right-1 h-0.5 bg-orange-300/70"></div>
+                                <div className="absolute top-3 left-1 right-1 h-0.5 bg-orange-300/70"></div>
+                                <div className="absolute top-5 left-1 right-1 h-0.5 bg-orange-300/70"></div>
+                                <div className="absolute top-7 left-1 right-1 h-0.5 bg-orange-300/70"></div>
+                                <div className="absolute top-9 left-1 right-1 h-0.5 bg-orange-300/70"></div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white/90 backdrop-blur rounded-lg p-3 shadow-sm">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-medium text-slate-700">Solar Array</span>
-                        <span className="text-orange-600 font-semibold">5.4 kW</span>
-                      </div>
-                      <div className="mt-1 h-1 bg-slate-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full" style={{width: '78%'}}></div>
-                      </div>
-                    </div>
+                  
+                  {/* Image Navigation Dots */}
+                  <div className="absolute top-4 right-4 flex space-x-2">
+                    {solarImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageSlide(index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                          index === currentImageSlide ? 'bg-orange-600' : 'bg-white/60'
+                        }`}
+                      />
+                    ))}
                   </div>
                 </div>
                 <p className="mt-3 text-sm text-slate-600">
@@ -176,21 +251,52 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Trusted Brands */}
-      <section aria-label="Trusted brands" className="py-10 border-y border-orange-300 bg-white">
+      {/* Trusted Brands Sliding Banner */}
+      <section aria-label="Trusted brands" className="py-10 border-y border-orange-300 bg-white overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="text-xs font-semibold tracking-wider text-slate-500 uppercase">Trusted equipment & mounting</p>
-          <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-6 items-center opacity-80">
-            {[
-              "Canadian Solar",
-              "Unirac",
-              "EG4",
-              "Victron",
-            ].map((brand) => (
-              <div key={brand} className="flex items-center justify-center rounded-xl border border-orange-300 px-4 py-3">
-                <span className="text-sm font-semibold">{brand}</span>
-              </div>
-            ))}
+          
+          {/* Sliding Banner Container */}
+          <div className="mt-4 relative">
+            <div className="flex transition-transform duration-500 ease-in-out" 
+                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+              {Array.from({ length: Math.ceil(trustedBrands.length / 4) }).map((_, slideIndex) => (
+                <div key={slideIndex} className="w-full flex-shrink-0">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-stretch opacity-80">
+                    {trustedBrands.slice(slideIndex * 4, (slideIndex + 1) * 4).map((brand) => (
+                      <div key={brand.name} className="flex items-center justify-center rounded-xl border border-orange-300 px-4 py-6 bg-white shadow-sm hover:shadow-md transition-shadow">
+                        <img
+                          src={brand.logo}
+                          alt={`${brand.name} logo`}
+                          className={`h-28 w-auto object-contain transition-all duration-300 ${
+                            brand.name === "Canadian Solar" ? "mt-1" : ""
+                          }`}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'block';
+                          }}
+                        />
+                        <span className="text-sm font-semibold text-slate-700 hidden">{brand.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Navigation Dots */}
+            <div className="flex justify-center mt-6 space-x-2">
+              {Array.from({ length: Math.ceil(trustedBrands.length / 4) }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    index === currentSlide ? 'bg-orange-600' : 'bg-orange-300'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

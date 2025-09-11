@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 export default function QuotePage() {
   const [formData, setFormData] = useState({
@@ -31,6 +32,8 @@ export default function QuotePage() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [estimatedCost, setEstimatedCost] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -56,10 +59,74 @@ export default function QuotePage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Quote request submitted:', formData);
-    alert('Thank you for your quote request! We will contact you within 24 hours with a detailed proposal.');
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // EmailJS configuration - you'll need to replace these with your actual EmailJS credentials
+      const serviceId = 'service_sunsync'; // Replace with your EmailJS service ID
+      const templateId = 'template_quote'; // Replace with your EmailJS template ID
+      const publicKey = 'your_public_key'; // Replace with your EmailJS public key
+
+      // Prepare email template parameters
+      const templateParams = {
+        to_email: 'sales@sunsynchardware.com',
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        from_email: formData.email,
+        phone: formData.phone,
+        address: `${formData.address}, ${formData.city}, ${formData.state} ${formData.zipCode}`,
+        project_type: formData.projectType,
+        system_size: formData.systemSize,
+        roof_type: formData.roofType,
+        roof_age: formData.roofAge,
+        current_bill: formData.currentBill,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        financing: formData.financing,
+        battery_storage: formData.batteryStorage,
+        additional_info: formData.additionalInfo,
+        estimated_cost: estimatedCost ? `$${estimatedCost.finalCost}` : 'Not calculated',
+        monthly_savings: estimatedCost ? `$${estimatedCost.monthlySavings}` : 'Not calculated'
+      };
+
+      // Send email using EmailJS
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
+      setSubmitStatus('success');
+      console.log('Quote request submitted successfully:', formData);
+      
+      // Reset form after successful submission
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        projectType: 'residential',
+        systemSize: '',
+        roofType: '',
+        roofAge: '',
+        currentBill: '',
+        budget: '',
+        timeline: '',
+        financing: 'no',
+        batteryStorage: 'no',
+        additionalInfo: ''
+      });
+      setCurrentStep(1);
+      setEstimatedCost(null);
+      
+    } catch (error) {
+      console.error('Error sending quote request:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const nextStep = () => {
@@ -533,13 +600,29 @@ export default function QuotePage() {
                   ) : (
                     <button
                       type="submit"
-                      className="ml-auto px-6 py-3 rounded-xl bg-orange-700 text-white hover:bg-orange-800 transition-colors"
+                      disabled={isSubmitting}
+                      className="ml-auto px-6 py-3 rounded-xl bg-orange-700 text-white hover:bg-orange-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Submit Quote Request
+                      {isSubmitting ? 'Submitting...' : 'Submit Quote Request'}
                     </button>
                   )}
                 </div>
               </form>
+              
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                  <p className="font-medium">Quote Request Submitted Successfully!</p>
+                  <p className="text-sm">Thank you for your interest. We will contact you within 24 hours with a detailed proposal.</p>
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                  <p className="font-medium">Error Submitting Quote Request</p>
+                  <p className="text-sm">There was an error sending your quote request. Please try again or contact us directly at 409-797-6294.</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -638,11 +721,11 @@ export default function QuotePage() {
               <div className="space-y-3 text-sm">
                 <p className="flex items-center gap-2">
                   <span>📞</span>
-                  <span>1-800-SUNSYNC</span>
+                  <span>409-797-6294</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <span>✉️</span>
-                  <span>sales@sunsync.com</span>
+                  <span>sales@sunsynchardware.com</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <span>🕒</span>

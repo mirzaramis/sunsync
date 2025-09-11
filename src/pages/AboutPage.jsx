@@ -34,27 +34,27 @@ export default function AboutPage() {
 
   const team = [
     {
-      name: "Sarah Johnson",
-      position: "CEO & Founder",
-      bio: "15+ years in renewable energy. Former VP at a Fortune 500 solar company.",
+      name: "Emily Carter",
+      position: "Manager Purchase",
+      bio: "Expert in supply chain management for solar equipment. Ensures quality components and competitive pricing for all projects.",
       image: "👩‍💼"
     },
+      {
+        name: "Adam Chase",
+        position: "Manager Sales",
+        bio: "Experienced sales leader specializing in solar solutions and renewable energy systems. Drives revenue growth and builds lasting client relationships.",
+        image: "👨‍💻"
+      },
     {
-      name: "Michael Chen",
-      position: "Chief Technology Officer",
-      bio: "Expert in solar system design and energy storage solutions.",
-      image: "👨‍💻"
-    },
-    {
-      name: "Emily Rodriguez",
-      position: "VP of Operations",
-      bio: "Oversees all installation projects and customer service operations.",
+      name: "Madison Brooks",
+      position: "Manager Procurement",
+      bio: "Specializes in sourcing and acquiring high-quality solar components and equipment. Manages vendor relationships and ensures optimal supply chain efficiency.",
       image: "👩‍🔧"
     },
     {
-      name: "David Thompson",
-      position: "Head of Sales",
-      bio: "Helps customers find the perfect solar solution for their needs.",
+      name: "Alex Wade",
+      position: "Manager Accounts and Finance",
+      bio: "Expert in financial planning and accounting for solar projects. Manages budgets, cost analysis, and ensures financial sustainability of all operations.",
       image: "👨‍💼"
     }
   ];
