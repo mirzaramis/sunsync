@@ -1,6 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function ContactPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Clean up timestamp parameter from URL
+  useEffect(() => {
+    if (location.search.includes('t=')) {
+      const cleanUrl = location.pathname;
+      navigate(cleanUrl, { replace: true });
+    }
+  }, [location.search, navigate]);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -48,22 +60,22 @@ export default function ContactPage() {
   const offices = [
     {
       city: "Headquarters",
-      address: "123 Solar Street, Suite 100",
-      cityState: "Phoenix, AZ 85001",
+      address: "5900 Balcones Drive STE 100",
+      cityState: "Austin, TX 78731 USA",
       phone: "409-797-6294",
       hours: "Mon-Fri: 8AM-6PM MST"
     },
     {
       city: "East Coast",
-      address: "456 Renewable Road",
-      cityState: "Boston, MA 02101",
+      address: "5900 Balcones Drive STE 100",
+      cityState: "Austin, TX 78731 USA",
       phone: "409-797-6294",
       hours: "Mon-Fri: 8AM-6PM EST"
     },
     {
       city: "West Coast",
-      address: "789 Green Avenue",
-      cityState: "San Francisco, CA 94101",
+      address: "5900 Balcones Drive STE 100",
+      cityState: "Austin, TX 78731 USA",
       phone: "409-797-6294",
       hours: "Mon-Fri: 8AM-6PM PST"
     }

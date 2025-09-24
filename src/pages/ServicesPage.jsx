@@ -1,7 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function ServicesPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Clean up timestamp parameter from URL
+  useEffect(() => {
+    if (location.search.includes('t=')) {
+      const cleanUrl = location.pathname;
+      navigate(cleanUrl, { replace: true });
+    }
+  }, [location.search, navigate]);
+
   const services = [
     {
       title: "System Design & Engineering",

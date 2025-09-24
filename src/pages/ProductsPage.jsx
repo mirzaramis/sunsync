@@ -1,10 +1,39 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [availability, setAvailability] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const mainContentRef = useRef(null);
+
+  // Scroll to top when category or availability filter changes
+  useEffect(() => {
+    // Scroll main window to top
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    
+    // Also scroll the main content area to top (for independent scrolling)
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  }, [activeCategory, availability]);
+
+  // Check for category selection from footer links and clean up URL
+  useEffect(() => {
+    const selectedCategory = sessionStorage.getItem('selectedCategory');
+    if (selectedCategory) {
+      setActiveCategory(selectedCategory);
+      sessionStorage.removeItem('selectedCategory'); // Clear after use
+    }
+
+    // Clean up timestamp parameter from URL
+    if (location.search.includes('t=')) {
+      const cleanUrl = location.pathname;
+      navigate(cleanUrl, { replace: true });
+    }
+  }, [location.search, navigate]);
 
   const categories = [
     { 
@@ -776,7 +805,7 @@ export default function ProductsPage() {
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar - Categories & Filters */}
           <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="lg:sticky lg:top-24 space-y-6">
+            <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-2 space-y-6" style={{scrollbarWidth: 'thin', scrollbarColor: '#fb923c #fed7aa'}}>
               {/* Categories */}
               <div className="bg-white rounded-2xl border border-orange-300 p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -852,7 +881,7 @@ export default function ProductsPage() {
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-3">
+          <div ref={mainContentRef} className="lg:col-span-3 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto" style={{scrollbarWidth: 'thin', scrollbarColor: '#fb923c #fed7aa'}}>
             {/* Category Header */}
             {currentCategory && (
               <div className="bg-white rounded-2xl border border-orange-300 p-4 sm:p-6 mb-6">

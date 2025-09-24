@@ -1,7 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function AboutPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Clean up timestamp parameter from URL
+  useEffect(() => {
+    if (location.search.includes('t=')) {
+      const cleanUrl = location.pathname;
+      navigate(cleanUrl, { replace: true });
+    }
+  }, [location.search, navigate]);
+
   const stats = [
     { number: "500+", label: "Systems Installed" },
     { number: "15+", label: "Years Experience" },

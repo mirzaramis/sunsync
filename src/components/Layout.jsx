@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function Layout({ children }) {
   const [open, setOpen] = useState(false);
@@ -152,9 +152,36 @@ export default function Layout({ children }) {
             </div>
             <p className="mt-3 text-sm text-slate-600">Solar made simple: premium components, engineered designs, and installs you can trust.</p>
           </div>
-          <FooterCol title="Products" links={["Solar Panels", "Inverters", "Batteries", "Racking", "Kits", "EV Chargers"]} />
-          <FooterCol title="Services" links={["Design Service", "Installation", "Maintenance", "Financing", "Support"]} />
-          <FooterCol title="Company" links={["About Us", "Contact", "Careers", "Support", "Privacy Policy"]} />
+          <FooterCol 
+            title="Products" 
+            links={[
+              { name: "Solar Panels", href: "/products", category: "solar-panels" },
+              { name: "Inverters", href: "/products", category: "inverters" },
+              { name: "Batteries", href: "/products", category: "storage-solutions" },
+              { name: "Racking", href: "/products", category: "racking" },
+              { name: "Kits", href: "/products", category: "all" }
+            ]} 
+          />
+          <FooterCol 
+            title="Services" 
+            links={[
+              { name: "Design Service", href: "/services" },
+              { name: "Installation", href: "/services" },
+              { name: "Maintenance", href: "/services" },
+              { name: "Financing", href: "/services" },
+              { name: "Support", href: "/contact" }
+            ]} 
+          />
+          <FooterCol 
+            title="Company" 
+            links={[
+              { name: "About Us", href: "/about" },
+              { name: "Contact", href: "/contact" },
+              { name: "Careers", href: "/contact" },
+              { name: "Support", href: "/contact" },
+              { name: "Privacy Policy", href: "/contact" }
+            ]} 
+          />
         </div>
         <div className="border-t border-slate-200 py-6">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
@@ -171,12 +198,34 @@ export default function Layout({ children }) {
 }
 
 function FooterCol({ title, links }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLinkClick = (link) => {
+    // If it's a product category link, store the category
+    if (link.category) {
+      sessionStorage.setItem('selectedCategory', link.category);
+    }
+
+    // Force navigation even if on the same page by adding a timestamp
+    const timestamp = Date.now();
+    const urlWithTimestamp = `${link.href}?t=${timestamp}`;
+    navigate(urlWithTimestamp);
+  };
+
   return (
     <div>
-      <h4 className="text-sm font-semibold">{title}</h4>
+      <h4 className="text-sm font-semibold text-slate-900">{title}</h4>
       <ul className="mt-3 space-y-2 text-sm text-slate-600">
-        {links.map((l) => (
-          <li key={l}><a href="#" className="hover:text-slate-800">{l}</a></li>
+        {links.map((link) => (
+          <li key={link.name}>
+            <button
+              onClick={() => handleLinkClick(link)}
+              className="hover:text-orange-700 transition-colors duration-200 block py-1 text-left w-full"
+            >
+              {link.name}
+            </button>
+          </li>
         ))}
       </ul>
     </div>
