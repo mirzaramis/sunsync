@@ -65,10 +65,13 @@ export default function QuotePage() {
     setSubmitStatus(null);
 
     try {
-      // EmailJS configuration - you'll need to replace these with your actual EmailJS credentials
-      const serviceId = 'service_mosu2jb'; // Replace with your EmailJS service ID
-      const templateId = 'template_8oacqkz'; // Replace with your EmailJS template ID
-      const publicKey = 'toER1XsEFn5hdmaNJ'; // Replace with your EmailJS public key
+      // EmailJS configuration is read from Vite env vars (see .env.example)
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('EmailJS environment variables are not set');
+      }
 
       // Prepare email template parameters
       const templateParams = {
@@ -96,7 +99,6 @@ export default function QuotePage() {
       
       
       setSubmitStatus('success');
-      console.log('Quote request submitted successfully:', formData);
       
       // Reset form after successful submission
       setFormData({
